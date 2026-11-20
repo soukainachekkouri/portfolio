@@ -1,0 +1,561 @@
+<!doctype html>
+<html lang="fr" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Souky, product designer et product owner : je transforme la complexité en solution simple.">
+<meta name="theme-color" id="meta-theme" content="#0d0d0d">
+<title>Souky</title>
+<!-- Applique le thème avant l'affichage (évite le flash) : sombre par défaut -->
+<script>
+  document.documentElement.lang = 'fr';
+  try {
+    var t = localStorage.getItem('theme');
+    document.documentElement.dataset.theme = (t === 'light') ? 'light' : 'dark';
+  } catch (e) { document.documentElement.dataset.theme = 'dark'; }
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<!-- Jost = repli gratuit très proche de Futura (Windows, Android). Sur Mac et iPhone, la vraie Futura s'affiche.
+     Urbanist = police des chiffres. -->
+<link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600&family=Urbanist:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<a class="skip" id="skip" href="#main">Aller au contenu</a>
+
+<!-- Sprite d'icônes : chaque icône n'est décrite qu'une fois, puis réutilisée avec <use href="#…"> -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <symbol id="i-story" viewBox="0 0 16 16"><path d="M4 2.5h8v11l-4-3-4 3z"/></symbol>
+  <symbol id="i-task" viewBox="0 0 16 16"><rect x="2.5" y="2.5" width="11" height="11" rx="2"/><path d="M5.5 8l2 2 3-4"/></symbol>
+  <symbol id="i-epic" viewBox="0 0 16 16"><path d="M9 2L4 9h4l-1 5 5-7H8z"/></symbol>
+  <symbol id="i-high" viewBox="0 0 16 16"><path d="M3.5 8.5L8 4l4.5 4.5M3.5 12.5L8 8l4.5 4.5"/></symbol>
+  <symbol id="i-medium" viewBox="0 0 16 16"><path d="M3 6h10M3 10h10"/></symbol>
+  <symbol id="i-close" viewBox="0 0 16 16"><path d="M4 4l8 8M12 4l-8 8"/></symbol>
+  <symbol id="i-cap" viewBox="0 0 16 16"><path d="M1.5 6L8 3l6.5 3L8 9z"/><path d="M4 7.5V11c1 1.2 2.3 1.8 4 1.8s3-.6 4-1.8V7.5"/></symbol>
+  <symbol id="i-brief" viewBox="0 0 16 16"><rect x="2" y="5" width="12" height="8" rx="1.5"/><path d="M6 5V3.5h4V5M2 8.5h12"/></symbol>
+  <symbol id="i-ms" viewBox="0 0 16 16"><path d="M8 2.5l5.5 5.5L8 13.5 2.5 8z"/></symbol>
+  <symbol id="i-mail" viewBox="0 0 16 16"><rect x="2" y="3.5" width="12" height="9" rx="1.5"/><path d="M2.5 4.5L8 9l5.5-4.5"/></symbol>
+  <symbol id="i-link" viewBox="0 0 16 16"><path d="M6 3.5H3.5v9h9V10M9.5 2.5h4v4M13.5 2.5L7.5 8.5"/></symbol>
+  <symbol id="i-doc" viewBox="0 0 16 16"><path d="M4 2h5l3 3v9H4z"/><path d="M9 2v3h3M6 8h4M6 10.5h4"/></symbol>
+  <!-- Icônes de la sidebar -->
+  <symbol id="i-home" viewBox="0 0 16 16"><path d="M2.5 7.5L8 3l5.5 4.5V13h-11z"/><path d="M6.5 13V9.5h3V13"/></symbol>
+  <symbol id="i-compass" viewBox="0 0 16 16"><circle cx="8" cy="8" r="5.5"/><path d="M10.5 5.5L9 9 5.5 10.5 7 7z"/></symbol>
+  <symbol id="i-board" viewBox="0 0 16 16"><rect x="2" y="3" width="3.2" height="10" rx=".8"/><rect x="6.4" y="3" width="3.2" height="7" rx=".8"/><rect x="10.8" y="3" width="3.2" height="5" rx=".8"/></symbol>
+  <symbol id="i-timeline" viewBox="0 0 16 16"><path d="M2.5 4.5h6M5 8h7M3.5 11.5h5"/></symbol>
+  <symbol id="i-list" viewBox="0 0 16 16"><path d="M5.5 4h8M5.5 8h8M5.5 12h8M2.5 4h.01M2.5 8h.01M2.5 12h.01"/></symbol>
+  <symbol id="i-plus" viewBox="0 0 16 16"><path d="M8 3v10M3 8h10"/></symbol>
+  <symbol id="i-search" viewBox="0 0 16 16"><circle cx="7" cy="7" r="4.5"/><path d="M10.5 10.5L14 14"/></symbol>
+  <symbol id="i-chev" viewBox="0 0 16 16"><path d="M4 6l4 4 4-4"/></symbol>
+  <!-- Icônes du thème -->
+  <symbol id="i-sun" viewBox="0 0 16 16"><circle cx="8" cy="8" r="2.8"/><path d="M8 1.8v1.6M8 12.6v1.6M1.8 8h1.6M12.6 8h1.6M3.6 3.6l1.1 1.1M11.3 11.3l1.1 1.1M3.6 12.4l1.1-1.1M11.3 4.7l1.1-1.1"/></symbol>
+  <symbol id="i-moon" viewBox="0 0 16 16"><path d="M12.8 9.6A5.4 5.4 0 0 1 6.4 3.2a5.4 5.4 0 1 0 6.4 6.4z"/></symbol>
+  <!-- Icônes du hero (24×24) : cartes, bouton central, bouton suiveur -->
+  <symbol id="c-focus" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="2.5"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/></symbol>
+  <symbol id="c-alert" viewBox="0 0 24 24"><path d="M12 3l9 16H3z"/><path d="M12 10v4M12 17h.01"/></symbol>
+  <symbol id="c-rule" viewBox="0 0 24 24"><path d="M5 4h14v16H5zM9 9h6M9 13h6"/></symbol>
+  <symbol id="c-data" viewBox="0 0 24 24"><ellipse cx="12" cy="6" rx="7" ry="3"/><path d="M5 6v6c0 1.7 3.1 3 7 3s7-1.3 7-3V6M5 12v6c0 1.7 3.1 3 7 3s7-1.3 7-3v-6"/></symbol>
+  <symbol id="c-swap" viewBox="0 0 24 24"><path d="M4 7h10l-3-3M20 17H10l3 3"/></symbol>
+  <symbol id="c-target" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="3"/></symbol>
+  <symbol id="c-list" viewBox="0 0 24 24"><path d="M9 6h11M9 12h11M9 18h11M4 6h.01M4 12h.01M4 18h.01"/></symbol>
+  <symbol id="c-eye" viewBox="0 0 24 24"><path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></symbol>
+  <symbol id="c-cal" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></symbol>
+</svg>
+
+<!-- Sidebar (desktop) / barre d'onglets (mobile) -->
+<aside class="sidebar" aria-label="Navigation du portfolio">
+  <div class="sb-brand">
+    <!-- Logo = ton prénom en texte -->
+    <a href="#hero" class="logo" aria-label="Souky, accueil"><span class="wordmark">souky</span></a>
+  </div>
+
+  <div class="sb-project">
+    <span class="sb-proj-ico" aria-hidden="true">S</span>
+    <span>
+      <span class="sb-proj-name">Portfolio</span>
+      <span class="sb-proj-sub">Product designer &amp; PO</span>
+    </span>
+  </div>
+
+  <a class="btn primary sb-create" href="#contact">
+    <svg class="ico" aria-hidden="true"><use href="#i-plus"/></svg>Créer un ticket
+  </a>
+
+  <nav class="sb-nav" aria-label="Sections">
+    <div class="sb-group">
+      <p class="sb-label">Projet</p>
+      <ul>
+        <li><a class="sb-link" href="#hero" data-nav="hero"><svg class="ico" aria-hidden="true"><use href="#i-home"/></svg><span class="lbl">Accueil</span></a></li>
+        <li><a class="sb-link" href="#guide" data-nav="guide"><svg class="ico" aria-hidden="true"><use href="#i-compass"/></svg><span class="lbl" data-s="Guide">Principes</span><span class="num">01</span></a></li>
+      </ul>
+    </div>
+    <div class="sb-group">
+      <p class="sb-label">Planification</p>
+      <ul>
+        <li><a class="sb-link" href="#travail" data-nav="travail"><svg class="ico" aria-hidden="true"><use href="#i-board"/></svg><span class="lbl">Board</span><span class="num">02</span></a></li>
+        <li><a class="sb-link" href="#parcours" data-nav="parcours"><svg class="ico" aria-hidden="true"><use href="#i-timeline"/></svg><span class="lbl" data-s="Chrono">Chronologie</span><span class="num">03</span></a></li>
+        <li><a class="sb-link" href="#projets" data-nav="projets"><svg class="ico" aria-hidden="true"><use href="#i-epic"/></svg><span class="lbl">Epics</span><span class="num">04</span></a></li>
+        <li><a class="sb-link" href="#suite" data-nav="suite"><svg class="ico" aria-hidden="true"><use href="#i-list"/></svg><span class="lbl">Backlog</span><span class="num">05</span></a></li>
+        <li class="only-mobile"><a class="sb-link" href="#contact" data-nav="contact"><svg class="ico" aria-hidden="true"><use href="#i-plus"/></svg><span class="lbl">Créer</span></a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Bouton de thème (desktop) -->
+  <div class="sb-theme">
+    <button class="sb-link theme-btn" type="button" aria-label="Passer en mode clair" title="Passer en mode clair">
+      <svg class="ico" aria-hidden="true"><use href="#i-sun"/></svg><span class="lbl">Mode clair</span>
+    </button>
+  </div>
+
+  <p class="sb-foot">© <span id="year"></span> Souky</p>
+</aside>
+
+<!-- Bouton de thème flottant (mobile) -->
+<button class="theme-fab theme-btn" type="button" aria-label="Passer en mode clair" title="Passer en mode clair">
+  <svg class="ico" aria-hidden="true"><use href="#i-sun"/></svg>
+</button>
+
+<main class="main" id="main">
+
+<section class="view hero is-active" id="hero" tabindex="-1" aria-labelledby="t-hero">
+
+  <div class="hero-inner">
+
+    <!-- Bloc texte (à gauche) : titre, boutons, chiffres -->
+    <div class="hero-text">
+      <div class="intro">
+        <h1 id="t-hero">
+          <span class="line">Je transforme la complexité</span>
+          <span class="answer">en solution <em>simple</em>.</span>
+        </h1>
+        <div class="cta">
+          <button class="btn primary" id="order-btn" type="button">Mettre en ordre</button>
+          <a class="btn primary" id="projects-link" href="#projets" hidden>Voir mes projets</a>
+          <a class="btn" href="#contact">Me contacter</a>
+          <button class="btn" id="reset" type="button" hidden><span aria-hidden="true">↺</span> Revoir le désordre</button>
+        </div>
+      </div>
+
+      <!-- Chiffres : visibles une fois le tableau en ordre -->
+      <div class="stats">
+        <div class="stat">
+      <span class="big">+4</span>
+      <span class="label">ans d'expérience</span>
+      <span class="sub">Produit · UX · pilotage</span>
+    </div>
+        <div class="stat">
+      <span class="big" id="stat-projects">5</span>
+      <span class="label">projets</span>
+      <span class="sub">Refonte · conformité · plateformes</span>
+    </div>
+      </div>
+    </div>
+
+    <!-- Bloc visuel (à droite) : le tableau en désordre, que le bouton « Mettre en ordre » range -->
+    <div class="board-wrap">
+      <div class="board" id="board">
+
+        <article class="card lvl-1" style="--cx:1; --cy:1; --dx:-26px; --dy:6px; --r:-5deg">
+          <div class="card-inner">
+            <div class="face front">
+              <div class="head"><span class="icon"><svg aria-hidden="true"><use href="#c-alert"/></svg></span><span class="tag">Alerte</span></div>
+              <strong>Une régression repérée en recette</strong>
+              <div class="crit"><span>Critique</span><span class="dots"><i class="on"></i><i class="on"></i><i class="on"></i></span></div>
+            </div>
+            <div class="face back" aria-hidden="true">
+              <div class="head"><span class="icon"><svg aria-hidden="true"><use href="#c-alert"/></svg></span><span class="tag">Traité</span></div>
+              <strong>Un garde-fou testé en amont</strong>
+              <div class="crit"><span>Maîtrisé</span><span class="dots"><i class="on"></i><i></i><i></i></span></div>
+            </div>
+          </div>
+        </article>
+
+        <article class="card lvl-1" style="--cx:2; --cy:1; --dx:4px; --dy:-22px; --r:3deg">
+          <div class="card-inner">
+            <div class="face front">
+              <div class="head"><span class="icon"><svg aria-hidden="true"><use href="#c-rule"/></svg></span><span class="tag">Contrainte</span></div>
+              <strong>Une règle réglementaire ambiguë</strong>
+              <div class="crit"><span>Critique</span><span class="dots"><i class="on"></i><i class="on"></i><i class="on"></i></span></div>
+            </div>
+            <div class="face back" aria-hidden="true">
+              <div class="head"><span class="icon"><svg aria-hidden="true"><use href="#c-rule"/></svg></span><span class="tag">Traité</span></div>
+              <strong>Une règle devenue parcours clair</strong>
+              <div class="crit"><span>Maîtrisé</span><span class="dots"><i class="on"></i><i></i><i></i></span></div>
+            </div>
+          </div>
+        </article>
+
+        <article class="card lvl-1" style="--cx:3; --cy:1; --dx:0px; --dy:16px; --r:-4deg">
+          <div class="card-inner">
+            <div class="face front">
+              <div class="head"><span class="icon"><svg aria-hidden="true"><use href="#c-data"/></svg></span><span class="tag">Données</span></div>
+              <strong>Trois systèmes qui ne se parlent pas</strong>
+              <div class="crit"><span>Critique</span><span class="dots"><i class="on"></i><i class="on"></i><i class="on"></i></span></div>
+            </div>
+            <div class="face back" aria-hidden="true">
+              <div class="head"><span class="icon"><svg aria-hidden="true"><use href="#c-data"/></svg></span><span class="tag">Traité</span></div>
+              <strong>Une source de données partagée</strong>
+              <div class="crit"><span>Maîtrisé</span><span class="dots"><i class="on"></i><i></i><i></i></span></div>
+            </div>
+          </div>
+        </article>
+
+        <article class="card lvl-2" style="--cx:1; --cy:2; --dx:22px; --dy:-6px; --r:6deg">
+          <div class="card-inner">
+            <div class="face front">
+              <div class="head"><span class="icon"><svg aria-hidden="true"><use href="#c-swap"/></svg></span><span class="tag">Décision</span></div>
+              <strong>Arbitrer entre deux MVP</strong>
+              <div class="crit"><span>Élevée</span><span class="dots"><i class="on"></i><i class="on"></i><i></i></span></div>
+            </div>
+            <div class="face back" aria-hidden="true">
+              <div class="head"><span class="icon"><svg aria-hidden="true"><use href="#c-swap"/></svg></span><span class="tag">Traité</span></div>
+              <strong>Un MVP choisi, périmètre figé</strong>
+              <div class="crit"><span>Maîtrisé</span><span class="dots"><i class="on"></i><i></i><i></i></span></div>
+            </div>
+          </div>
+        </article>
+
+        <article class="card lvl-2" style="--cx:3; --cy:2; --dx:-20px; --dy:12px; --r:-6deg">
+          <div class="card-inner">
+            <div class="face front">
+              <div class="head"><span class="icon"><svg aria-hidden="true"><use href="#c-target"/></svg></span><span class="tag">Besoin</span></div>
+              <strong>Un objectif flou, trois attentes</strong>
+              <div class="crit"><span>Élevée</span><span class="dots"><i class="on"></i><i class="on"></i><i></i></span></div>
+            </div>
+            <div class="face back" aria-hidden="true">
+              <div class="head"><span class="icon"><svg aria-hidden="true"><use href="#c-target"/></svg></span><span class="tag">Traité</span></div>
+              <strong>Trois attentes, un objectif clair</strong>
+              <div class="crit"><span>Maîtrisé</span><span class="dots"><i class="on"></i><i></i><i></i></span></div>
+            </div>
+          </div>
+        </article>
+
+        <article class="card lvl-3" style="--cx:1; --cy:3; --dx:-14px; --dy:18px; --r:-3deg">
+          <div class="card-inner">
+            <div class="face front">
+              <div class="head"><span class="icon"><svg aria-hidden="true"><use href="#c-list"/></svg></span><span class="tag">Backlog</span></div>
+              <strong>Cent demandes à prioriser</strong>
+              <div class="crit"><span>Moyenne</span><span class="dots"><i class="on"></i><i></i><i></i></span></div>
+            </div>
+            <div class="face back" aria-hidden="true">
+              <div class="head"><span class="icon"><svg aria-hidden="true"><use href="#c-list"/></svg></span><span class="tag">Traité</span></div>
+              <strong>Plus de demandes à prioriser</strong>
+              <div class="crit"><span>Résolu</span><span class="dots"><i></i><i></i><i></i></span></div>
+            </div>
+          </div>
+        </article>
+
+        <article class="card lvl-3" style="--cx:2; --cy:3; --dx:12px; --dy:-16px; --r:4deg">
+          <div class="card-inner">
+            <div class="face front">
+              <div class="head"><span class="icon"><svg aria-hidden="true"><use href="#c-eye"/></svg></span><span class="tag">UX</span></div>
+              <strong>Un contraste qui disparaît</strong>
+              <div class="crit"><span>Moyenne</span><span class="dots"><i class="on"></i><i></i><i></i></span></div>
+            </div>
+            <div class="face back" aria-hidden="true">
+              <div class="head"><span class="icon"><svg aria-hidden="true"><use href="#c-eye"/></svg></span><span class="tag">Traité</span></div>
+              <strong>Un contraste lisible, testé</strong>
+              <div class="crit"><span>Résolu</span><span class="dots"><i></i><i></i><i></i></span></div>
+            </div>
+          </div>
+        </article>
+
+        <article class="card lvl-3" style="--cx:3; --cy:3; --dx:18px; --dy:10px; --r:5deg">
+          <div class="card-inner">
+            <div class="face front">
+              <div class="head"><span class="icon"><svg aria-hidden="true"><use href="#c-cal"/></svg></span><span class="tag">Sprint</span></div>
+              <strong>Des dépendances qui glissent</strong>
+              <div class="crit"><span>Moyenne</span><span class="dots"><i class="on"></i><i></i><i></i></span></div>
+            </div>
+            <div class="face back" aria-hidden="true">
+              <div class="head"><span class="icon"><svg aria-hidden="true"><use href="#c-cal"/></svg></span><span class="tag">Traité</span></div>
+              <strong>Dépendances cadrées, sprint tenu</strong>
+              <div class="crit"><span>Résolu</span><span class="dots"><i></i><i></i><i></i></span></div>
+            </div>
+          </div>
+        </article>
+      </div>
+
+    </div>
+
+  </div>
+</section>
+
+<section class="view guide" id="guide" tabindex="-1" aria-labelledby="t-guide">
+  <div class="guide-inner">
+    <div class="work-head reveal">
+      <p class="eyebrow"><span>01</span>Ce qui me guide</p>
+      <h2 id="t-guide">Je crois que la bonne interface est celle qu'on <em>oublie</em>.</h2>
+      <p class="lead">Trois convictions que j'applique du cadrage à la livraison, et ce qu'elles ont donné sur des projets réels.</p>
+    </div>
+    <!-- Les cartes et les repères chiffrés sont créés par le script (PRINCIPLES et RESULTS) -->
+    <ol class="principles" id="principles" aria-label="Mes principes"></ol>
+    <div class="figures reveal" id="figures" role="list" aria-label="Quelques repères de mon travail"></div>
+  </div>
+</section>
+
+<section class="view work" id="travail" tabindex="-1" aria-labelledby="t-travail">
+  <div class="work-inner">
+
+    <div class="work-head reveal">
+      <p class="eyebrow"><span>02</span>Ce que je fais</p>
+      <h2 id="t-travail">Entre ce que la règle impose et ce que <em>l'usager</em> comprend.</h2>
+      <p class="lead">Mon quotidien ressemble à un board : des besoins à cadrer, des parcours à concevoir, des livraisons à piloter. Ouvre un ticket pour voir comment je m'y prends.</p>
+    </div>
+
+    <!-- Barre du board -->
+    <div class="board-bar reveal">
+      <nav class="crumbs" aria-label="Fil d'Ariane">Projets<span>/</span>Souky<span>/</span><strong>Board</strong></nav>
+      <!-- Barre de filtres façon Jira : les listes déroulantes sont créées par le script -->
+      <div class="filterbar" role="search" aria-label="Filtrer le board">
+        <div class="fsearch">
+          <label class="sr" for="bf-search">Rechercher dans le board</label>
+          <svg class="ico" aria-hidden="true"><use href="#i-search"/></svg>
+          <input id="bf-search" type="search" placeholder="Rechercher dans le board" autocomplete="off">
+        </div>
+        <div class="fdrops" id="fdrops"></div>
+        <button class="fclear" id="bf-clear" type="button" hidden>Effacer les filtres</button>
+        <p class="sr" id="filter-status" role="status"></p>
+      </div>
+    </div>
+
+    <!-- Board -->
+    <div class="kanban reveal" id="kanban" role="group" aria-label="Tableau : ce que je fais">
+
+      <section class="column" aria-labelledby="col-cadrer">
+        <div class="col-head"><h3 id="col-cadrer">Cadrer</h3><span class="count">3</span></div>
+
+        <button class="ticket" type="button" data-key="SOU-101" data-type="story" data-prio="high" data-pillar="Cadrer" data-project="1" style="--i:0">
+          <span class="t-title">Traduire une obligation réglementaire en périmètre</span>
+          <span class="t-tags"><span class="chip">Conformité</span><span class="chip proj">WeShareBonds</span></span>
+          <span class="t-meta">
+            <span class="t-key"><svg class="ico ty-story" aria-hidden="true"><use href="#i-story"/></svg>SOU-101</span>
+            <span class="t-right"><svg class="ico prio-high" aria-hidden="true"><use href="#i-high"/></svg><span class="avatar" aria-hidden="true">S</span></span>
+          </span>
+        </button>
+
+        <button class="ticket" type="button" data-key="SOU-102" data-type="story" data-prio="medium" data-pillar="Cadrer" style="--i:1">
+          <span class="t-title">Aligner plusieurs parties prenantes sur un objectif</span>
+          <span class="t-tags"><span class="chip">Alignement</span></span>
+          <span class="t-meta">
+            <span class="t-key"><svg class="ico ty-story" aria-hidden="true"><use href="#i-story"/></svg>SOU-102</span>
+            <span class="t-right"><svg class="ico prio-medium" aria-hidden="true"><use href="#i-medium"/></svg><span class="avatar" aria-hidden="true">S</span></span>
+          </span>
+        </button>
+
+        <button class="ticket" type="button" data-key="SOU-103" data-type="task" data-prio="medium" data-pillar="Cadrer" data-project="1" style="--i:2">
+          <span class="t-title">Benchmarker l'existant avant de dessiner</span>
+          <span class="t-tags"><span class="chip">Recherche</span><span class="chip proj">jobfit</span></span>
+          <span class="t-meta">
+            <span class="t-key"><svg class="ico ty-task" aria-hidden="true"><use href="#i-task"/></svg>SOU-103</span>
+            <span class="t-right"><svg class="ico prio-medium" aria-hidden="true"><use href="#i-medium"/></svg><span class="avatar" aria-hidden="true">S</span></span>
+          </span>
+        </button>
+      </section>
+
+      <section class="column" aria-labelledby="col-concevoir">
+        <div class="col-head"><h3 id="col-concevoir">Concevoir</h3><span class="count">3</span></div>
+
+        <button class="ticket" type="button" data-key="SOU-201" data-type="story" data-prio="high" data-pillar="Concevoir" data-project="1" style="--i:1">
+          <span class="t-title">Cartographier deux parcours côte à côte</span>
+          <span class="t-tags"><span class="chip">Parcours</span><span class="chip proj">WeShareBonds</span></span>
+          <span class="t-meta">
+            <span class="t-key"><svg class="ico ty-story" aria-hidden="true"><use href="#i-story"/></svg>SOU-201</span>
+            <span class="t-right"><svg class="ico prio-high" aria-hidden="true"><use href="#i-high"/></svg><span class="avatar" aria-hidden="true">S</span></span>
+          </span>
+        </button>
+
+        <button class="ticket" type="button" data-key="SOU-202" data-type="task" data-prio="medium" data-pillar="Concevoir" style="--i:2">
+          <span class="t-title">Rendre une règle lisible en une phrase</span>
+          <span class="t-tags"><span class="chip">UX writing</span></span>
+          <span class="t-meta">
+            <span class="t-key"><svg class="ico ty-task" aria-hidden="true"><use href="#i-task"/></svg>SOU-202</span>
+            <span class="t-right"><svg class="ico prio-medium" aria-hidden="true"><use href="#i-medium"/></svg><span class="avatar" aria-hidden="true">S</span></span>
+          </span>
+        </button>
+
+        <button class="ticket" type="button" data-key="SOU-203" data-type="task" data-prio="medium" data-pillar="Concevoir" style="--i:3">
+          <span class="t-title">Vérifier contraste et lisibilité avant la livraison</span>
+          <span class="t-tags"><span class="chip">Accessibilité</span></span>
+          <span class="t-meta">
+            <span class="t-key"><svg class="ico ty-task" aria-hidden="true"><use href="#i-task"/></svg>SOU-203</span>
+            <span class="t-right"><svg class="ico prio-medium" aria-hidden="true"><use href="#i-medium"/></svg><span class="avatar" aria-hidden="true">S</span></span>
+          </span>
+        </button>
+      </section>
+
+      <section class="column" aria-labelledby="col-piloter">
+        <div class="col-head"><h3 id="col-piloter">Piloter</h3><span class="count">3</span></div>
+
+        <button class="ticket" type="button" data-key="SOU-301" data-type="epic" data-prio="high" data-pillar="Piloter" data-project="1" style="--i:2">
+          <span class="t-title">Tenir le calendrier de trois plateformes liées</span>
+          <span class="t-tags"><span class="chip">Jalons</span><span class="chip proj">SI à trois plateformes</span></span>
+          <span class="t-meta">
+            <span class="t-key"><svg class="ico ty-epic" aria-hidden="true"><use href="#i-epic"/></svg>SOU-301</span>
+            <span class="t-right"><svg class="ico prio-high" aria-hidden="true"><use href="#i-high"/></svg><span class="avatar" aria-hidden="true">S</span></span>
+          </span>
+        </button>
+
+        <button class="ticket" type="button" data-key="SOU-302" data-type="task" data-prio="medium" data-pillar="Piloter" style="--i:3">
+          <span class="t-title">Prioriser un backlog qui déborde</span>
+          <span class="t-tags"><span class="chip">Backlog</span></span>
+          <span class="t-meta">
+            <span class="t-key"><svg class="ico ty-task" aria-hidden="true"><use href="#i-task"/></svg>SOU-302</span>
+            <span class="t-right"><svg class="ico prio-medium" aria-hidden="true"><use href="#i-medium"/></svg><span class="avatar" aria-hidden="true">S</span></span>
+          </span>
+        </button>
+
+        <button class="ticket" type="button" data-key="SOU-303" data-type="story" data-prio="medium" data-pillar="Piloter" style="--i:4">
+          <span class="t-title">Arbitrer entre deux options de MVP</span>
+          <span class="t-tags"><span class="chip">Décision</span></span>
+          <span class="t-meta">
+            <span class="t-key"><svg class="ico ty-story" aria-hidden="true"><use href="#i-story"/></svg>SOU-303</span>
+            <span class="t-right"><svg class="ico prio-medium" aria-hidden="true"><use href="#i-medium"/></svg><span class="avatar" aria-hidden="true">S</span></span>
+          </span>
+        </button>
+      </section>
+
+    </div>
+  </div>
+</section>
+
+<section class="view parcours" id="parcours" tabindex="-1" aria-labelledby="t-parcours">
+  <div class="parcours-inner">
+
+    <div class="work-head reveal">
+      <p class="eyebrow"><span>03</span>Mon parcours</p>
+      <h2 id="t-parcours">D'où je viens, jusqu'à ce que je <em>construis</em>.</h2>
+      <p class="lead">Ma chronologie, version roadmap : ce qui dure en barres, ce qui marque en jalons. Clique sur un élément pour voir le détail.</p>
+    </div>
+
+    <div class="board-bar reveal">
+      <nav class="crumbs" aria-label="Fil d'Ariane">Projets<span>/</span>Souky<span>/</span><strong>Chronologie</strong></nav>
+      <div class="legend" aria-hidden="true">
+        <span><svg class="ico lg-formation"><use href="#i-cap"/></svg>Formation</span>
+        <span><svg class="ico lg-exp"><use href="#i-brief"/></svg>Expérience</span>
+        <span><svg class="ico fill"><use href="#i-ms"/></svg>Jalon</span>
+      </div>
+    </div>
+
+    <div class="reveal">
+      <div class="tl" id="tl" role="group" aria-label="Chronologie : formation, expérience, projets perso"></div>
+      <div class="tl-list" id="tl-list"></div>
+    </div>
+
+  </div>
+</section>
+
+<section class="view projets" id="projets" tabindex="-1" aria-labelledby="t-projets">
+  <div class="projets-inner">
+
+    <div class="work-head reveal">
+      <p class="eyebrow"><span>04</span>Projets</p>
+      <h2 id="t-projets">Des problèmes complexes, des solutions <em>simples</em>.</h2>
+      <p class="lead">Chaque projet est un epic : un problème de départ, ce que j'ai fait, ce qui a changé. Ouvre-en un pour lire l'étude de cas et retrouver les tickets qui lui sont liés.</p>
+    </div>
+
+    <div class="board-bar reveal">
+      <nav class="crumbs" aria-label="Fil d'Ariane">Projets<span>/</span>Souky<span>/</span><strong>Epics</strong></nav>
+    </div>
+
+    <div class="epics reveal" id="epics" role="list" aria-label="Projets"></div>
+
+  </div>
+</section>
+
+<section class="view suite" id="suite" tabindex="-1" aria-labelledby="t-suite">
+  <div class="suite-inner">
+
+    <div class="work-head reveal">
+      <p class="eyebrow"><span>05</span>Ce qui m'attend</p>
+      <h2 id="t-suite">La suite du backlog : ce que j'ai <em>envie</em> de construire.</h2>
+      <p class="lead">Quelques sujets qui me motivent pour la suite, classés par horizon. Ouvre-en un pour voir pourquoi il m'attire.</p>
+    </div>
+
+    <div class="board-bar reveal">
+      <nav class="crumbs" aria-label="Fil d'Ariane">Projets<span>/</span>Souky<span>/</span><strong>Backlog</strong></nav>
+    </div>
+
+    <div class="backlog reveal" id="backlog" role="group" aria-label="Backlog : ce qui m'attend"></div>
+
+  </div>
+</section>
+
+<section class="view contact" id="contact" tabindex="-1" aria-labelledby="t-contact">
+  <div class="contact-inner">
+
+    <div class="reveal">
+      <p class="eyebrow"><span>06</span>Me contacter</p>
+      <h2 id="t-contact">Un problème complexe à simplifier ? Créons le <em>ticket</em>.</h2>
+      <p class="lead">Une mission, une collaboration, une question : décris-moi le sujet, je reviens vers toi. Tu peux aussi m'écrire directement.</p>
+      <ul class="links" id="links"></ul>
+    </div>
+
+    <form class="ticket-form reveal" id="ticket-form">
+      <div class="tf-head">
+        <h3><svg class="ico ty-story" aria-hidden="true"><use href="#i-story"/></svg>Créer un ticket</h3>
+        <span class="tf-proj">Projet : Souky (SOU)</span>
+      </div>
+      <div class="field">
+        <label for="tf-type">Type de demande</label>
+        <select id="tf-type" name="type">
+          <option>Mission</option>
+          <option>Collaboration</option>
+          <option>Échange / question</option>
+          <option>Autre</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="tf-summary">Résumé (obligatoire)</label>
+        <input id="tf-summary" name="summary" type="text" required maxlength="120" placeholder="En une phrase, le sujet">
+      </div>
+      <div class="field">
+        <label for="tf-desc">Description</label>
+        <textarea id="tf-desc" name="desc" placeholder="Le contexte, le besoin, les délais…"></textarea>
+      </div>
+      <div class="tf-actions">
+        <span class="tf-note" id="tf-note" role="status">S'ouvre dans ta messagerie.</span>
+        <button class="btn" type="reset">Effacer</button>
+        <button class="btn primary" type="submit">Créer</button>
+      </div>
+    </form>
+
+  </div>
+
+  <div class="foot">
+    <span>© Souky</span>
+    <a href="#hero">Retour à l'accueil ↑</a>
+  </div>
+</section>
+
+</main>
+
+<!-- Modale (tickets, chronologie, projets, backlog) -->
+<dialog class="modal" id="drawer" aria-labelledby="dr-title">
+  <div class="m-top">
+    <span class="dr-key" id="dr-key"></span>
+    <button class="dr-close" id="dr-close" type="button" aria-label="Fermer"><svg class="ico" aria-hidden="true"><use href="#i-close"/></svg></button>
+  </div>
+  <div class="m-body">
+    <div class="m-main">
+      <div class="m-cover" id="dr-cover" hidden></div>
+      <h3 id="dr-title"></h3>
+      <div id="dr-visual"></div>
+      <div id="dr-sections"></div>
+      <div class="m-tabs" id="dr-tabs" role="tablist" aria-label="Vues du poste" hidden></div>
+      <div id="dr-panels"></div>
+      <div class="dr-comments" id="dr-comments" hidden></div>
+      <div class="dr-pinned" id="dr-pinned" hidden></div>
+    </div>
+    <aside class="m-side" aria-label="Détails">
+      <h4>Détails</h4>
+      <dl class="dr-meta" id="dr-meta"></dl>
+    </aside>
+  </div>
+</dialog>
+
+<script src="js/main.js" defer></script>
+</body>
+</html>
